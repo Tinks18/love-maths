@@ -2,20 +2,20 @@
 //Get the button elements and event listeners to them 
 
 document.addEventListener("DOMContentLoaded", function(){
-    let buttons = this.getElementsByTagName('button');
+    let buttons = document.getElementsByTagName('button');
 
     for (let button of buttons){
-        button.addEventListener("click", function(){
+        button.addEventListener("click", function() {
             if(this.getAttribute("data-type") === "submit"){
                 checkAnswer();
             }else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
             }
-        })
+        });
     }
     runGame("addition");
-})
+});
 
 /**
  * the main  game loop, called when the function is first loaded
@@ -34,9 +34,24 @@ function runGame(gameType){
     throw `unknown game type: ${gameType}. Aborting!`;
    }
 }
-
+/**
+ * Checks the answer against the first element in the returned 
+ * calculatecorrectanswer array
+ */
 function checkAnswer(){
-let 
+let userAnswer = parseInt(document.getElementById('answer-box').value);
+let calculatedAnswer = calculateCorrectAnswer();
+let isCorrect = userAnswer === calculatedAnswer[0];
+
+if (isCorrect) {
+    alert("Hey. You got it right! :D");
+    
+} else {
+    alert(`Awwww... you wrote ${userAnswer}! the correct answer is ${calculatedAnswer[0]}!`);
+
+    runGame(calculatedAnswer[1]);
+
+}
 }
 
 function calculateCorrectAnswer(){
@@ -47,7 +62,7 @@ function calculateCorrectAnswer(){
 
     if (operator === "+") {
 
-        return[operand1 + operand2, "addition"];
+        return [operand1 + operand2, "addition"];
         
     } else {
         alert(`Unimplemented Operator ${operator}`);
